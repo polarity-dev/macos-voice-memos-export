@@ -154,7 +154,7 @@ private func stageAndExport(
     try client.withResponse(["operation": "stage", "id": recording.id]) { result, exchangeDirectory in
         guard let response = result as? [String: Any],
               let filename = response["file"] as? String,
-              filename == "recording.m4a" else {
+              recordingExtensions.map({ "recording.\($0)" }).contains(filename) else {
             throw VoiceMemosError.broker("The broker returned invalid staged-file data.")
         }
         let stagedFile = exchangeDirectory.appendingPathComponent(filename)

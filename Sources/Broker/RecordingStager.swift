@@ -9,7 +9,7 @@ struct RecordingStager {
                 "The recording is not available locally: \(recording.metadata.title)"
             )
         }
-        let filename = "recording.m4a"
+        let filename = "recording.\(source.pathExtension.lowercased())"
         let destination = exchangeDirectory.appendingPathComponent(filename)
         guard !fileManager.fileExists(atPath: destination.path) else {
             throw VoiceMemosError.filesystem("The broker staging file already exists.")
