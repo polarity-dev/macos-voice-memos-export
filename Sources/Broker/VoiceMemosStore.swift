@@ -162,7 +162,7 @@ final class VoiceMemosStore {
             : recordingsDirectory.appendingPathComponent(path)
         let root = recordingsDirectory.resolvingSymlinksInPath().standardizedFileURL
         let resolved = candidate.resolvingSymlinksInPath().standardizedFileURL
-        guard isDescendant(resolved, of: root), resolved.pathExtension.lowercased() == "m4a" else {
+        guard isDescendant(resolved, of: root), recordingExtensions.contains(resolved.pathExtension.lowercased()) else {
             return nil
         }
         guard let values = try? resolved.resourceValues(forKeys: [.isRegularFileKey]),

@@ -7,7 +7,8 @@ struct ExportDestination {
         defer { try? fileManager.removeItem(at: stagedFile) }
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         let stem = "\(safeFilename(recording.title)) - \(timestamp(recording.recordedAt))"
-        let preferred = directory.appendingPathComponent(stem).appendingPathExtension("m4a")
+        let preferred = directory.appendingPathComponent(stem)
+            .appendingPathExtension(stagedFile.pathExtension)
         let destination = try availableDestination(
             preferred: preferred,
             stagedFile: stagedFile,
@@ -31,13 +32,14 @@ struct ExportDestination {
         let directory = preferred.deletingLastPathComponent()
         let stem = preferred.deletingPathExtension().lastPathComponent
         let suffix = shortIdentifier(recordingID)
-        let identified = directory.appendingPathComponent("\(stem) - \(suffix)").appendingPathExtension("m4a")
+        let identified = directory.appendingPathComponent("\(stem) - \(suffix)")
+            .appendingPathExtension(preferred.pathExtension)
         guard fileManager.fileExists(atPath: identified.path) else { return identified }
         if fileManager.contentsEqual(atPath: stagedFile.path, andPath: identified.path) { return identified }
         for counter in 2...999 {
             let candidate = directory
                 .appendingPathComponent("\(stem) - \(suffix)-\(counter)")
-                .appendingPathExtension("m4a")
+                .appendingPathExtension(preferred.pathExtension)
             if !fileManager.fileExists(atPath: candidate.path) { return candidate }
             if fileManager.contentsEqual(atPath: stagedFile.path, andPath: candidate.path) { return candidate }
         }

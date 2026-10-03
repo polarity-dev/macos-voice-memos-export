@@ -1,5 +1,8 @@
 import Foundation
 
+/// Audio formats Voice Memos stores recordings in.
+let recordingExtensions: Set<String> = ["m4a", "qta"]
+
 struct Recording {
     let id: String
     let title: String

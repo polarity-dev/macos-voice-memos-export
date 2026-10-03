@@ -9,10 +9,10 @@ Voice Memos protects its database and recordings with macOS privacy controls. Th
 - Lists locally known Voice Memos recordings.
 - Searches titles using case- and diacritic-insensitive matching.
 - Exports one recording, or explicitly exports all matches.
-- Preserves the original `.m4a` audio without transcoding.
+- Preserves the original `.m4a` or `.qta` audio without transcoding.
 - Produces machine-readable JSON when requested.
 
-The tool has no network access, opens the Voice Memos database read-only, and only accepts source files that resolve to regular `.m4a` files inside the Voice Memos recordings directory.
+The tool has no network access, opens the Voice Memos database read-only, and only accepts source files that resolve to regular `.m4a` or `.qta` files inside the Voice Memos recordings directory.
 
 ## Requirements
 
@@ -103,7 +103,7 @@ The broker:
 - validates that request and response files are regular files inside its dedicated exchange directory;
 - requests only the metadata columns needed for listing and export;
 - resolves symlinks before verifying that a source remains inside the Voice Memos recordings directory;
-- reads only regular `.m4a` source files;
+- reads only regular `.m4a` or `.qta` source files;
 - stages selected audio under a generated exchange directory.
 
 The CLI copies staged audio to the user-selected destination, applies collision-safe filenames, and removes temporary data. Neither component performs network requests. Any process running as the same macOS user can invoke the broker, so run software under that account only when you trust it; the broker's restricted API prevents arbitrary Full Disk Access reads or writes.
